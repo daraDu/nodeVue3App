@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <a href="http://localhost:9090/content.html?id=1&title='详情'"> 跳转到详情页 </a>
+       <br/> get 发送：
+        <form method="get" action="http://localhost:9090">
+            用户名：<input name="name" type="text"/>
+            密码：<input name="password" type="text"/>
+            <input type="submit" value="登录"/>
+        </form>  <br/>
+        post发送：
+        <form method="post" action="http://localhost:9091">
+            用户名：<input name="name" type="text"/>
+            密码：<input name="password" type="text"/>
+            <input type="submit" value="登录"/>
+        </form> 
+        <br/>
+        post发送用户登录：
+        <form method="post" action="http://localhost:9092">
+            用户名：<input name="username" type="text"/>
+            密码：<input name="userpwd" type="text"/>
+            <input type="submit" value="登录"/>
+        </form>
+        <br/>
+        post发送用户注册：
+        <form method="post" action="http://localhost:9093">
+            用户名：<input name="username" type="text"/>
+            密码：<input name="userpwd" type="text"/>
+            <input type="submit" value="注册"/>
+        </form>
+        <br/>
+        post 9000 发送类型：
+        <form method="post" action="http://localhost:9000/admin/api/categories/">
+            用户名：<input name="name" type="text"/>
+            <input type="submit" value="提交"/>
+        </form>
+    </body>
+</html>
