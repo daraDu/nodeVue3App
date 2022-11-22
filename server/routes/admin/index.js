@@ -1,11 +1,12 @@
 module.exports = app => {
   const express = require('express')
+  const path = require('path')
   const multipart = require('multipart')
   const router = express.Router() // express 子路由
   const jwt = require('jsonwebtoken')
   const AdminUser = require('../../models/AdminUser')
   const authMiddleware = require('../../middleware/auth')
-
+  let OSS = require('ali-oss');
   // 增
   router.post('/add', async (req, res) => {
     const model = await req.Model.create(req.body)
@@ -46,10 +47,33 @@ module.exports = app => {
   const multer = require('multer')
   const upload = multer({ dest: __dirname + '/../../uploads' })
   //  upload.single 单文件上传
+  const client = new OSS({
+    // yourRegion填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou。
+    region: 'oss-cn-hangzhou',
+    // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+    accessKeyId: 'LTAI5t6RpMGq8ri1WnMeRKW4',
+    accessKeySecret: 'DoE4QYZfoWfbjMH5ksTFnnJsrRQ41N',
+    // 填写Bucket名称。
+    bucket: 'dssces'
+  })
+  const headers = {
+    // 指定Object的存储类型。
+    'x-oss-storage-class': 'Standard',
+    // 指定Object的访问权限。
+    'x-oss-object-acl': 'private',
+    // 设置Object的标签，可同时设置多个标签。
+    'x-oss-tagging': 'Tag1=1&Tag2=2',
+    // 指定PutObject操作时是否覆盖同名目标Object。此处设置为true，表示禁止覆盖同名Object。
+    'x-oss-forbid-overwrite': 'true',
+  };
   app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
-    console.log('req===', req);
-
     const file = req.file
+    console.log('file===', file);
+    const result = await client.put(file.originalFilename, path.normalize(upload + file.originalFilename)
+      // 自定义headers
+      , { headers }
+    );
+    console.log('result===', result);
     file.url = `http://localhost:9000/uploads/${file.filename}`
     res.send(file)
   })

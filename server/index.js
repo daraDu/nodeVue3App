@@ -17,6 +17,7 @@ app.use('/uploadsMultipart', express.static(__dirname + '/uploadsMultipart'))
 
 require('./routes/admin/index.js')(app)
 require('./routes/admin/upload.js')(app)
+require('./routes/admin/uploadOss.js')(app)
 require('./routes/admin/uploadSlice.js')(app)
 // require('./plugins/mysql')(app)
 require('./plugins/mongoose')(app)
